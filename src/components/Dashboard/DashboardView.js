@@ -1,6 +1,6 @@
 import React from "react";
 
-const DashBoard = ({ profileImage }) => {
+const DashBoard = ({ profileImage, logoutCallback }) => {
   return (
     <nav className="navbar navbar-light bg-light custom-nav ">
       <div className="container">
@@ -8,12 +8,16 @@ const DashBoard = ({ profileImage }) => {
           <img
             className="avatar"
             src={profileImage}
-            alt="Profile Image"
+            alt="Profile"
             width="30"
             height="24"
           />
         </a>
-        <button className="btn btn-light" type="button">
+        <button
+          className="btn btn-light"
+          type="button"
+          onClick={logoutCallback}
+        >
           Logout
         </button>
       </div>

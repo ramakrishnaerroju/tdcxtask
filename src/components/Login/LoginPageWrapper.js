@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LoginView from "./LoginPageView";
 import axios from "../../axios/axios";
 import UserData from "../../userdata";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import CommonService from "./../../common/commonService";
 import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/react";
@@ -18,10 +18,11 @@ const override = css`
   justify-content: center;
 `;
 
-const LoginPage = ({ history }) => {
+const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState("");
   const loginMessage = "Login is successful. You are logged in now!";
+  let history = useHistory();
 
   React.useEffect(() => {
     const setData = async () => {

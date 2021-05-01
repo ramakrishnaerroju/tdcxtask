@@ -29,7 +29,7 @@ const LoginView = ({ onLogin }) => {
   });
   return (
     <div className="container-fluid">
-      <div className="loginPage">
+      <div className="centerDiv">
         <div className="card cardWidth">
           <div className="card-body">
             <h5 className="card-title mb-4">Login</h5>
