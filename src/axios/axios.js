@@ -9,7 +9,8 @@ const instance = axios.create({
   },
 });
 
-export default {
+const axiosObj = {
+  baseURL: "https://dev-dl.tdcx.com:3092",
   addTask: () =>
     instance({
       method: "GET",
@@ -31,3 +32,4 @@ export default {
       },
     }),
 };
+export default axiosObj;

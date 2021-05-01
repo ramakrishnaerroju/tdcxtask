@@ -1,20 +1,7 @@
-export default class UserData {
-  token = "";
-  name = "";
+const UserData = {
+  token: "",
+  name: "",
+  profileUrl: "",
+};
 
-  static setToken(token) {
-    this.token = token;
-  }
-
-  static getToken() {
-    return this.token;
-  }
-
-  static setName(name) {
-    this.name = name;
-  }
-
-  static getName() {
-    return this.name;
-  }
-}
+export default UserData;
