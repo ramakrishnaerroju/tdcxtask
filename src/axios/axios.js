@@ -45,5 +45,13 @@ const axiosObj = {
         "content-type": "application/json",
       },
     }),
+  deleteTask: (id) =>
+    instance({
+      method: "DELETE",
+      url: `/tasks/${id}`,
+      headers: {
+        Authorization: `Bearer ${UserData.token}`,
+      },
+    }),
 };
 export default axiosObj;

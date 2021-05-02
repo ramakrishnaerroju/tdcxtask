@@ -12,13 +12,13 @@ const override = css`
   justify-content: center;
 `;
 
-const TaskListWrapper = () => {
+const TaskListWrapper = ({ addTask, reFetchTasks }) => {
   const [taskList, setTaskList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [reFetchTasks]);
 
   const fetchTasks = () => {
     setLoading(true);
@@ -29,7 +29,24 @@ const TaskListWrapper = () => {
         setLoading(false);
         setTaskList(data.tasks);
         // show toast
+        // CommonService.notifySuccess(data.msg);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const onDeleteTask = (id) => {
+    setLoading(true);
+    axios
+      .deleteTask(id)
+      .then(({ data }) => {
+        console.log(data);
+        setLoading(false);
+        // show toast
         CommonService.notifySuccess(data.msg);
+        fetchTasks();
       })
       .catch((error) => {
         console.log(error);
@@ -40,13 +57,35 @@ const TaskListWrapper = () => {
   return (
     <>
       <div className="container mt-4">
-        <div>
-          <div className="list-group card">
-            {taskList.length > 0 &&
-              taskList.map((task) => {
-                return <TaskList task={task} />;
-              })}
+        <div className="d-flex align-items-center">
+          <div class="me-auto p-2">
+            <p className="heading m-0">Tasks</p>
           </div>
+
+          <div class="p-2">
+            <input
+              type="search"
+              placeholder="Search"
+              id="search"
+              aria-label="Search"
+            />
+          </div>
+
+          <div className="p-2">
+            <button
+              className="btn btn-sm btn-primary"
+              type="button"
+              onClick={addTask}
+            >
+              New Task
+            </button>
+          </div>
+        </div>
+        <div className="list-group card">
+          {taskList.length > 0 &&
+            taskList.map((task) => {
+              return <TaskList task={task} deleteTask={onDeleteTask} />;
+            })}
         </div>
       </div>
       <div className="centerDiv">

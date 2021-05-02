@@ -45,4 +45,20 @@
 
 .task-container {
   height: calc(100vh - 5em);
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  background: rgba();
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hide {
+  display: none;
+}
+
+.heading {
+  font-size: 1.5em;
 }

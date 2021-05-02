@@ -12,7 +12,7 @@ const override = css`
   justify-content: center;
 `;
 
-const TaskWrapper = () => {
+const TaskWrapper = ({ closeCreateTask }) => {
   const [loading, setLoading] = useState(false);
 
   const onTaskSubmit = (data) => {
@@ -28,6 +28,7 @@ const TaskWrapper = () => {
           setLoading(false);
           // show toast
           CommonService.notifySuccess(data.msg);
+          closeCreateTask();
         })
         .catch((error) => {
           console.log(error);
