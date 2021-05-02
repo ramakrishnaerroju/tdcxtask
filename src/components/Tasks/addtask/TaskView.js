@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, createRef } from "react";
 
 const TaskView = ({ onTaskSubmit }) => {
   const [userinput, setInput] = useState("");
+  const inputRef = createRef();
   return (
     <div className="card cardWidth text-center">
       <div className="card-body">
@@ -16,13 +17,17 @@ const TaskView = ({ onTaskSubmit }) => {
           aria-label="task"
           placeholder="enter task"
           type="text"
+          ref={inputRef}
           onChange={(event) => setInput(event.target.value)}
         />
         <div className="d-grid mb-2">
           <button
             type="button"
             className="btn btn-primary"
-            onClick={() => onTaskSubmit(userinput)}
+            onClick={() => {
+              inputRef.current.value = "";
+              onTaskSubmit(userinput);
+            }}
           >
             + Add Task
           </button>

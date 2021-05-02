@@ -6,10 +6,6 @@ import { Redirect, useHistory } from "react-router-dom";
 import CommonService from "./../../common/commonService";
 import { BeatLoader } from "react-spinners";
 import { css } from "@emotion/react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-toast.configure();
 
 const override = css`
   position: absolute;
@@ -31,18 +27,6 @@ const LoginPage = () => {
     setData();
   }, [loginData]);
 
-  const notifySuccess = () => {
-    toast(loginMessage, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   const onLogin = (data) => {
     setLoading(true);
     axios
@@ -55,7 +39,7 @@ const LoginPage = () => {
         console.log(response);
         setLoading(false);
         // show toast
-        notifySuccess();
+        CommonService.notifySuccess(loginMessage);
         history.push("/dashboard");
       })
       .catch((error) => {

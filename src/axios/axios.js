@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_KEY } from "./../constants";
+import UserData from "./../userdata";
 
 const instance = axios.create({
   baseURL: "https://dev-dl.tdcx.com:3092",
@@ -11,12 +12,25 @@ const instance = axios.create({
 
 const axiosObj = {
   baseURL: "https://dev-dl.tdcx.com:3092",
-  addTask: () =>
+  addTask: (payload) =>
+    instance({
+      method: "POST",
+      url: "/tasks",
+      data: {
+        name: payload.task,
+      },
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${UserData.token}`,
+      },
+    }),
+  getTasks: () =>
     instance({
       method: "GET",
-      url: "/login",
-      params: {
-        search: "parameter",
+      url: "/tasks",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${UserData.token}`,
       },
     }),
   doLogin: ({ name }) =>
