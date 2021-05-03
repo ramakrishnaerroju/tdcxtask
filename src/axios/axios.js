@@ -53,5 +53,17 @@ const axiosObj = {
         Authorization: `Bearer ${UserData.token}`,
       },
     }),
+  editTask: (task) =>
+    instance({
+      method: "PUT",
+      url: `/tasks/${task._id}`,
+      data: {
+        name: task.name,
+        completed: task.completed,
+      },
+      headers: {
+        Authorization: `Bearer ${UserData.token}`,
+      },
+    }),
 };
 export default axiosObj;

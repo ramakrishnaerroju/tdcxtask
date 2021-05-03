@@ -5,11 +5,19 @@ import { faPencilAlt, faTrashAlt } from "@fortawesome/fontawesome-free-solid";
 
 fontawesome.library.add(faPencilAlt, faTrashAlt);
 
-const TaskList = ({ task, deleteTask }) => {
+const TaskList = ({ task, deleteTask, checkboxHandleChange }) => {
   return (
     <label className="list-group-item" key={task._id}>
-      <input className="form-check-input me-3" type="checkbox" value="" />
-      <span>{task.name}</span>
+      <input
+        className="form-check-input me-3"
+        type="checkbox"
+        value=""
+        checked={task.completed}
+        onChange={(event) => checkboxHandleChange(event, task)}
+      />
+      <span className={task.completed ? "task-completed" : ""}>
+        {task.name}
+      </span>
       <button
         type="button"
         className="btn btn-sm btn-light float-end ml-2"

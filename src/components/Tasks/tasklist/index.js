@@ -54,6 +54,28 @@ const TaskListWrapper = ({ addTask, reFetchTasks }) => {
       });
   };
 
+  const onEditTask = (updatedTask) => {
+    setLoading(true);
+    axios
+      .editTask(updatedTask)
+      .then(({ data }) => {
+        console.log(data);
+        setLoading(false);
+        // show toast
+        // CommonService.notifySuccess(data.msg);
+        fetchTasks();
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const checkboxHandleChange = (event, task) => {
+    task.completed = event.target.checked;
+    onEditTask(task);
+  };
+
   return (
     <>
       <div className="container mt-4">
@@ -84,7 +106,13 @@ const TaskListWrapper = ({ addTask, reFetchTasks }) => {
         <div className="list-group card">
           {taskList.length > 0 &&
             taskList.map((task) => {
-              return <TaskList task={task} deleteTask={onDeleteTask} />;
+              return (
+                <TaskList
+                  task={task}
+                  deleteTask={onDeleteTask}
+                  checkboxHandleChange={checkboxHandleChange}
+                />
+              );
             })}
         </div>
       </div>
