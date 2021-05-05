@@ -44,11 +44,14 @@
 }
 
 .task-container {
-  height: calc(100vh - 5em);
+  height: 100%;
   position: absolute;
   z-index: 100;
   width: 100%;
   background: rgba();
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .overlay {
@@ -65,4 +68,24 @@
 
 .task-completed {
   text-decoration: line-through;
+}
+
+.total {
+  font-size: 1em;
+  color: gray;
+  font-weight: bold;
+}
+
+.complete {
+  font-size: 4em;
+  color: #2424cee6;
+}
+
+.custom-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-row .card {
+  flex: 0 0 32%;
 }

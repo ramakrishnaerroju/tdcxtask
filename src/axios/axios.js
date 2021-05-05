@@ -33,6 +33,15 @@ const axiosObj = {
         Authorization: `Bearer ${UserData.token}`,
       },
     }),
+  getDashboard: () =>
+    instance({
+      method: "GET",
+      url: "/dashboard",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${UserData.token}`,
+      },
+    }),
   doLogin: ({ name }) =>
     instance({
       method: "POST",
