@@ -6,6 +6,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { size } from "lodash";
 import NoTask from "../Tasks/notask/TaskWrapper";
 import CreateTask from "../Tasks/addtask/TaskWrapper";
+import EditTask from "../Tasks/edittask/TaskWrapper";
 import UserData from "./../../userdata";
 import TaskList from "./../Tasks/tasklist";
 
@@ -16,7 +17,10 @@ const DashBoard = () => {
   const history = useHistory();
   const [notask, setNoTask] = useState(false);
   const [createTask, setCreateTask] = useState(false);
+  const [editTaskPopup, openCloseEditPopup] = useState(false);
+  const [updatedTask, setUpdatedTask] = useState(null);
   const wrapperRef = React.createRef();
+  const editWrapperRef = React.createRef();
   const [reFetchTasks, setReFetchTasks] = useState(false);
 
   useEffect(() => {
@@ -73,9 +77,30 @@ const DashBoard = () => {
     }
   };
 
-  const closeCreateTask = () => {
+  const closeCreateTaskPopup = () => {
     setCreateTask(false);
     setReFetchTasks(!reFetchTasks);
+  };
+
+  const closeEditTaskPopup = (updatedTask) => {
+    openCloseEditPopup(false);
+    setUpdatedTask(updatedTask);
+  };
+
+  const openEditPopup = (currentTask) => {
+    setUpdatedTask(currentTask);
+    openCloseEditPopup(true);
+  };
+
+  const editTaskCallBack = (event) => {
+    if (
+      event &&
+      editWrapperRef.current &&
+      !editWrapperRef.current.contains(event.target)
+    ) {
+      openCloseEditPopup(false);
+      // setReFetchTasks(!reFetchTasks);
+    }
   };
 
   return (
@@ -101,11 +126,32 @@ const DashBoard = () => {
         onClick={(event) => createTaskCallBack(event)}
       >
         <div ref={wrapperRef}>
-          {createTask && <CreateTask closeCreateTask={closeCreateTask} />}
+          {createTask && <CreateTask closeCreateTask={closeCreateTaskPopup} />}
         </div>
       </div>
-
-      <TaskList addTask={createTaskCallBack} reFetchTasks={reFetchTasks} />
+      <div
+        className={
+          editTaskPopup
+            ? "centerDiv task-container overlay"
+            : "centerDiv task-container overlay hide"
+        }
+        onClick={(event) => editTaskCallBack(event)}
+      >
+        <div ref={editWrapperRef}>
+          {editTaskPopup && (
+            <EditTask
+              closeEditTaskPopup={closeEditTaskPopup}
+              task={updatedTask}
+            />
+          )}
+        </div>
+      </div>
+      <TaskList
+        addTask={createTaskCallBack}
+        reFetchTasks={reFetchTasks}
+        openEditPopup={openEditPopup}
+        editedTask={updatedTask}
+      />
     </div>
   );
 };

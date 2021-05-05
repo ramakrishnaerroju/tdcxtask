@@ -5,7 +5,7 @@ import { faPencilAlt, faTrashAlt } from "@fortawesome/fontawesome-free-solid";
 
 fontawesome.library.add(faPencilAlt, faTrashAlt);
 
-const TaskList = ({ task, deleteTask, checkboxHandleChange }) => {
+const TaskList = ({ task, deleteTask, checkboxHandleChange, editTask }) => {
   return (
     <label className="list-group-item" key={task._id}>
       <input
@@ -25,7 +25,11 @@ const TaskList = ({ task, deleteTask, checkboxHandleChange }) => {
       >
         <FontAwesomeIcon icon="trash-alt" />
       </button>
-      <button type="button" className="btn btn-sm btn-light float-end mr-4">
+      <button
+        type="button"
+        className="btn btn-sm btn-light float-end mr-4"
+        onClick={() => editTask(task)}
+      >
         <FontAwesomeIcon icon="pencil-alt" />
       </button>
     </label>

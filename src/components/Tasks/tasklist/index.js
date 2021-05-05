@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import TaskList from "./TaskList";
 import axios from "./../../../axios/axios";
 import { BeatLoader } from "react-spinners";
@@ -12,9 +12,36 @@ const override = css`
   justify-content: center;
 `;
 
-const TaskListWrapper = ({ addTask, reFetchTasks }) => {
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+const TaskListWrapper = ({
+  addTask,
+  reFetchTasks,
+  openEditPopup,
+  editedTask,
+}) => {
   const [taskList, setTaskList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const prevTask = usePrevious({ editedTask });
+  const [makeEditCall, setMakeCall] = useState(false);
+  useEffect(() => {
+    if (prevTask?.editedTask?.name !== editedTask?.name) {
+      setMakeCall(true);
+    }
+  }, [editedTask, prevTask, setMakeCall]);
+
+  useEffect(() => {
+    if (makeEditCall) {
+      onEditTask(editedTask);
+      setMakeCall(false);
+    }
+  }, [makeEditCall]);
 
   useEffect(() => {
     fetchTasks();
@@ -76,10 +103,14 @@ const TaskListWrapper = ({ addTask, reFetchTasks }) => {
     onEditTask(task);
   };
 
+  const editTaskPopup = (task) => {
+    openEditPopup(task);
+  };
+
   return (
     <>
       <div className="container mt-4">
-        <div className="d-flex align-items-center">
+        <div className="d-none d-md-flex align-items-center">
           <div class="me-auto p-2">
             <p className="heading m-0">Tasks</p>
           </div>
@@ -103,6 +134,32 @@ const TaskListWrapper = ({ addTask, reFetchTasks }) => {
             </button>
           </div>
         </div>
+
+        <div className="d-md-none">
+          <div class="d-grid  p-2">
+            <p className="heading m-0 text-center"> Tasks</p>
+          </div>
+
+          <div class="d-grid  p-2">
+            <input
+              type="search"
+              placeholder="Search"
+              id="search"
+              aria-label="Search"
+            />
+          </div>
+
+          <div className="d-grid p-2">
+            <button
+              className="btn btn-sm btn-primary"
+              type="button"
+              onClick={addTask}
+            >
+              New Task
+            </button>
+          </div>
+        </div>
+
         <div className="list-group card">
           {taskList.length > 0 &&
             taskList.map((task) => {
@@ -111,6 +168,7 @@ const TaskListWrapper = ({ addTask, reFetchTasks }) => {
                   task={task}
                   deleteTask={onDeleteTask}
                   checkboxHandleChange={checkboxHandleChange}
+                  editTask={editTaskPopup}
                 />
               );
             })}
